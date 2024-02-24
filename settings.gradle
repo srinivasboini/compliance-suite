@@ -1,3 +1,4 @@
 rootProject.name = 'compliance-suite'
 
+include 'commons'
 include 'discovery-service'
