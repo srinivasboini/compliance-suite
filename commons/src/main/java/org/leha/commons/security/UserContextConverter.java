@@ -25,7 +25,7 @@ public class UserContextConverter implements Converter<Jwt, AbstractAuthenticati
     public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
 
         UserContext userContext = convertToCurrentUser(jwt) ;
-        log.info("context user :{} is created from incoming JWT", userContext) ;
+        log.info("user :{} is created from incoming JWT", userContext);
         Collection<GrantedAuthority> authorities = jwtAuthorizationConverter.convert(jwt) ;
         assert authorities != null;
         authorities
