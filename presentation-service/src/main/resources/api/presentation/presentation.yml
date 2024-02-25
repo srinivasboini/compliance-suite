@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: A sample OpenAPI definition with one GET request
+  version: 1.0.0
+
+paths:
+  /users/me:
+    get:
+      tags:
+        - CurrentUser
+      summary: Retrieve Sample Data
+      description: Retrieves sample data from the server.
+      operationId: "getCurrentUser"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+              example:
+                message: "Hello, World!"
+
+components:
+  schemas:
+    User:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example: "srinivas"
