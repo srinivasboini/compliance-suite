@@ -1,9 +1,13 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 plugins {
 	id "java"
 	id "org.springframework.boot" version "3.2.2"
 	id "io.spring.dependency-management" version "1.1.4"
+	id 'org.openapi.generator' version '7.2.0'
 	id "maven-publish"
 }
+apply plugin: "org.openapi.generator"
 
 group = "org.leha"
 version = "0.0.1-SNAPSHOT"
@@ -55,4 +59,42 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
+
+void createOpenApiGenerateTask(String ymlName) {
+	String taskName = "openApiGenerate_" + ymlName;
+	tasks.register(taskName, GenerateTask) {
+		generatorName = 'spring'
+		inputSpec = "$projectDir/src/main/resources/api/${ymlName}/${ymlName}.yml".toString()
+		outputDir = "$buildDir/generated-sources/openapi"
+		apiPackage = "com.srini.${ymlName}.api".toString()
+		modelPackage = "com.srini.${ymlName}.model".toString()
+		generatorName = 'spring'
+		library = 'spring-boot'
+		modelNameSuffix = "${ymlName}DTO".toString()
+		configOptions = [
+				interfaceOnly       : "true",
+				skipDefaultInterface: "true",
+				useSpringBoot3      : "true"
+		]
+
+	}
+	compileJava.dependsOn(taskName)
+
+}
+
+String[] ymlNames = ["presentation"]
+
+ymlNames.each { String ymlName ->
+	createOpenApiGenerateTask(ymlName);
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs += "$buildDir/generated-sources/openapi/src/main/java"
+		}
+	}
+}
+
 
