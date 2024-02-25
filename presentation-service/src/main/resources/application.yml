@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: presentation-service
+  jackson:
+    default-property-inclusion: non_null
+
+
+server:
+  port: 11000
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
