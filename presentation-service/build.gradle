@@ -27,6 +27,7 @@ repositories {
 	mavenCentral()
 }
 
+
 ext {
 	set('springCloudVersion', "2023.0.0")
 }
@@ -63,10 +64,11 @@ dependencyManagement {
 
 void createOpenApiGenerateTask(String ymlName) {
 	String taskName = "openApiGenerate_" + ymlName;
+
 	tasks.register(taskName, GenerateTask) {
 		generatorName = 'spring'
 		inputSpec = "$projectDir/src/main/resources/api/${ymlName}/${ymlName}.yml".toString()
-		outputDir = "$buildDir/generated-sources/openapi"
+		outputDir = layout.buildDirectory.dir("generated-sources/openapi").map { it.asFile.path }
 		apiPackage = "com.srini.${ymlName}.api".toString()
 		modelPackage = "com.srini.${ymlName}.model".toString()
 		generatorName = 'spring'
@@ -89,10 +91,13 @@ ymlNames.each { String ymlName ->
 	createOpenApiGenerateTask(ymlName);
 }
 
+Provider<Directory> buildDirectory = layout.buildDirectory
+
 sourceSets {
 	main {
 		java {
-			srcDirs += "$buildDir/generated-sources/openapi/src/main/java"
+
+			srcDirs += buildDirectory.dir("generated-sources/openapi/src/main/java").map { its -> its.asFile.path }
 		}
 	}
 }
