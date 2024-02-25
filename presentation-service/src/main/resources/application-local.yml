@@ -1,0 +1,23 @@
+server:
+  port: 11001
+  #  ssl:
+  #   bundle: FA10001
+#    client-auth: NEED
+
+
+
+spring:
+  ssl:
+    bundle:
+      jks:
+        FA10001:
+          key:
+            alias: "fa10001"
+            password: "test123"
+          keystore:
+            location: "classpath:certs/FA10001.p12"
+            password: "test123"
+            type: "PKCS12"
+          truststore:
+            location: "classpath:certs/FA10001.p12"
+            password: "test123"
