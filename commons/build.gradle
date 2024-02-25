@@ -19,8 +19,6 @@ ext {
 	set("commonsLangVersion", "3.14.0")
 	set("commonsCollectionsVversion", "4.4")
 	set("gitCommitIdVersion", "6.0.0-rc.6")
-
-
 }
 
 dependencies {
@@ -68,6 +66,10 @@ repositories {
 	mavenCentral()
 }
 
+/**
+ * This is required to build a standalone jar. bootJar command looks for a main class as we don't have any main
+ * class for commons we need to set it to false
+ */
 bootJar {
 	enabled = false
 }
