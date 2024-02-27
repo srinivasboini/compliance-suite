@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 public class AccessControlConfiguration {
 
     private static final String PATTERN = "/users/**";
-    private final AccessControlConfigurationProperties accessControlConfigurationProperties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, OAuth2ResourceServerProperties oAuth2ResourceServerProperties) throws Exception {
@@ -54,6 +53,7 @@ public class AccessControlConfiguration {
                                 .decoder(jwtDecoder(oAuth2ResourceServerProperties)))
                 )
                 .build();
+
     }
 
     private JwtDecoder jwtDecoder(OAuth2ResourceServerProperties oAuth2ResourceServerProperties) {
@@ -73,6 +73,7 @@ public class AccessControlConfiguration {
         jwtDecoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
                 new JwtTimestampValidator(Duration.ofMinutes(5))
         ));
+
 
         return jwtDecoder;
 
